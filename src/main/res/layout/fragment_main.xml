@@ -12,4 +12,13 @@
         android:text="Main2"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/textMain"/>
+
+
 </LinearLayout>

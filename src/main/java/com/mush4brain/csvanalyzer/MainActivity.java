@@ -9,20 +9,33 @@ import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 public class MainActivity extends Activity {
-  private String TAG = "MainActivity";
+  private String TAG = "MAIN ACTIVITY";
   //detects swipes
   float x1,x2;
   float y1, y2;
-  private String filelink="https://github.com/tillnagel/unfolding/blob/master/data/data/countries-population-density.csv";
+  final String mURL="https://raw.githubusercontent.com/tillnagel/unfolding/master/data/data/countries-population-density.csv";
+  TextView mTextView = (TextView)findViewById(R.id.textMain);
+  //mTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-  //Log.d(TAG, filelink);
+
+
   //fragment stuff
   FragmentTransaction ft = null;
   PlaceholderFragment fragMain = new PlaceholderFragment();
@@ -39,6 +52,19 @@ public class MainActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    Log.d(TAG, mURL);
+
+    //start thread
+    Thread thread = new Thread(new Task());
+    thread.start();
+
+    //wait for thread to finish
+    try {
+      thread.join();
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
     //set action bar
     ActionBar actionBar = getActionBar();
@@ -111,7 +137,7 @@ public class MainActivity extends Activity {
     return false;
   }
 
-
+  //Main fragment
   public static class PlaceholderFragment extends Fragment {
 
     public PlaceholderFragment() {
@@ -123,10 +149,18 @@ public class MainActivity extends Activity {
       View rootView = inflater
               .inflate(R.layout.fragment_main, container, false);
 
+      Toast.makeText(this.getActivity(), "Loading CSV File", Toast.LENGTH_LONG).show();
+
+
+
       return rootView;
     }
+
+
+
   }
 
+  //Right fragment
   public static class PlaceholderFragmentRight extends Fragment {
 
     public PlaceholderFragmentRight() {
@@ -141,6 +175,7 @@ public class MainActivity extends Activity {
     }
   }
 
+  //Left fragment
   public static class PlaceholderFragmentLeft extends Fragment {
 
     public PlaceholderFragmentLeft() {
@@ -152,6 +187,36 @@ public class MainActivity extends Activity {
       View rootView = inflater
               .inflate(R.layout.fragment_left, container, false);
       return rootView;
+    }
+  }
+
+
+  class Task implements Runnable {
+
+    @Override
+    public void run() {
+
+      try{
+        URL url = new URL(mURL);
+        Log.d(TAG,"URL: " + url.toString());
+        InputStreamReader isr =  new InputStreamReader(url.openStream());
+        BufferedReader in = new BufferedReader(isr);
+        StringBuilder total = new StringBuilder();
+        String line;
+        while((line = in.readLine()) != null){
+          total.append(line + "\n");
+        }
+
+        in.close();
+        Log.d(TAG,total.toString());
+        mTextView.setText(total.toString());
+      }catch(MalformedURLException e){
+        Log.d(TAG,"Malformed");
+      }catch(IOException e){
+        Log.d(TAG,"IOException");
+      }catch(NetworkOnMainThreadException e){
+        Log.d(TAG,"NetworkProblem");
+      }
     }
   }
 
