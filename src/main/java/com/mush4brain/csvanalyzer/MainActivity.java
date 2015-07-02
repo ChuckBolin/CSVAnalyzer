@@ -2,9 +2,12 @@ package com.mush4brain.csvanalyzer;
 
 //import android.view.View;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,7 +20,9 @@ public class MainActivity extends Activity {
   //detects swipes
   float x1,x2;
   float y1, y2;
+  private String filelink="https://github.com/tillnagel/unfolding/blob/master/data/data/countries-population-density.csv";
 
+  //Log.d(TAG, filelink);
   //fragment stuff
   FragmentTransaction ft = null;
   PlaceholderFragment fragMain = new PlaceholderFragment();
@@ -34,6 +39,12 @@ public class MainActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    //set action bar
+    ActionBar actionBar = getActionBar();
+    actionBar.setTitle("CSV Analyzer");
+    actionBar.setSubtitle(R.string.app_version);
+    actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 
     //sets main fragment
     ft = getFragmentManager().beginTransaction();
