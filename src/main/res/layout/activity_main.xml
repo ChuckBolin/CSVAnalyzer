@@ -4,5 +4,13 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="com.mush4brain.csvanalyzer.MainActivity"
-             tools:ignore="MergeRootFrame"/>
+             tools:ignore="MergeRootFrame">
+
+    <TextView
+        android:layout_width="346dp"
+        android:layout_height="472dp"
+        android:text="New Text"
+        android:id="@+id/textView"
+        android:layout_gravity="left|top"/>
+</FrameLayout>
 
