@@ -1,0 +1,12 @@
+/build
+/libs
+/hooks
+/objects
+index
+/info
+/logs
+HEAD
+COMMIT_EDITMSG
+config
+description
+/refs
