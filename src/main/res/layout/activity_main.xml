@@ -18,6 +18,14 @@
         android:layout_height="wrap_content"
         android:text="Find..."
         android:id="@+id/buttonFindFile"
+        android:onClick="onButtonFindClick"
+        android:layout_gravity="left|bottom"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Download"
+        android:id="@+id/buttonDownload"
         android:onClick="onButtonClick"
         android:layout_gravity="center_horizontal|bottom"/>
 
