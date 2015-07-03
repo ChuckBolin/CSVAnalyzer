@@ -18,7 +18,9 @@
         android:layout_height="wrap_content"
         android:text="Find..."
         android:id="@+id/buttonFindFile"
-        android:onClick="findFileClick"
+        android:onClick="onButtonClick"
         android:layout_gravity="center_horizontal|bottom"/>
+
+
 </FrameLayout>
 
