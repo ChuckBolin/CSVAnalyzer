@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.NetworkOnMainThreadException;
 import android.provider.OpenableColumns;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +46,11 @@ public class MainActivity extends Activity{
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
     mTextView = (TextView)findViewById(R.id.textView);
+    mTextView.setMovementMethod(new ScrollingMovementMethod());
     mContext = getApplicationContext();
 
     //set action bar
@@ -53,16 +59,6 @@ public class MainActivity extends Activity{
     actionBar.setSubtitle(R.string.app_version);
     actionBar.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 
-//    String storageState = Environment.getExternalStorageState();
-//    if(storageState.equals(Environment.MEDIA_MOUNTED)){
-//      Log.d(TAG, "Media_Mounted");
-//
-//
-//      File file = new File(getExternalFilesDir(null),
-//              "wifiscan.csv");
-//      Log.d(TAG, file.toString());
-//
-//    }
 
   }
 
@@ -118,7 +114,8 @@ public class MainActivity extends Activity{
     Toast.makeText(getApplicationContext(), "Finding...", Toast.LENGTH_SHORT).show();
 
     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-    intent.setType("*/*");
+    intent.setType("text/csv");//*/*");
+    //intent.setDataAndType(Uri, "text/csv");
     intent.addCategory(Intent.CATEGORY_OPENABLE);
 
     try{
@@ -153,6 +150,9 @@ public class MainActivity extends Activity{
       String response = "";
       String storageState = Environment.getExternalStorageState();
       Log.d(TAG,"uri: " + uri.toString());
+      Log.d(TAG,"T1: " + Environment.getExternalStorageDirectory());
+      Log.d(TAG,"T2: " + getExternalFilesDir(null));
+      Log.d(TAG,"T3: " + uri[0].getPath().toString());// getExternalFilesDir(null));
       if(storageState.equals(Environment.MEDIA_MOUNTED)){
         //Log.d(TAG, "Media_Mounted");
         File file = new File(Environment.getExternalStorageDirectory(),getFileName(uri[0]));//"wifiscan.csv");

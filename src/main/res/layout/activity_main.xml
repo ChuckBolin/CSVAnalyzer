@@ -10,6 +10,8 @@
         android:layout_width="346dp"
         android:layout_height="447dp"
         android:id="@+id/textView"
+        android:scrollbars = "vertical"
+        android:lines="25"
         android:layout_gravity="center_horizontal|top"/>
 
     <Button
